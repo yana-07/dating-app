@@ -10,17 +10,22 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy =>
+        {
+            policy.AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithOrigins("http://localhost:4200", "https://localhost:4200");
+        });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseCors(options =>
-{
-    options.AllowAnyHeader()
-        .AllowAnyMethod()
-        .WithOrigins("http://localhost:4200", "https://localhost:4200");
-});
+app.UseCors("AllowLocalhost");
+
 app.MapControllers();
 
 app.Run();
