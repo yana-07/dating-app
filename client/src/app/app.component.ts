@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 
+import { NavComponent } from './nav/nav.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
