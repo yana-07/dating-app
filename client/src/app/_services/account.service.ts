@@ -12,6 +12,17 @@ export class AccountService {
   currentUser = signal<User | null>(null);
   private http = inject(HttpClient);
 
+  register(model: any) {
+    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+      tap(user => {
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUser.set(user);
+        }
+      })
+    );
+  }
+
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       tap(user => {
