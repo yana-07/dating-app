@@ -1,7 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrService } from 'ngx-toastr';
 
 import { AccountService } from '../_services/account.service';
@@ -9,7 +10,13 @@ import { AccountService } from '../_services/account.service';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule, BsDropdownModule, RouterLink, RouterLinkActive],
+  imports: [
+    FormsModule,
+    BsDropdownModule,
+    RouterLink,
+    RouterLinkActive,
+    TitleCasePipe,
+  ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })
@@ -18,7 +25,7 @@ export class NavComponent {
   currentUser = computed(() => this.accountService.currentUser());
   private accountService = inject(AccountService);
   private router = inject(Router);
-  private toastr = inject(ToastrService)
+  private toastr = inject(ToastrService);
 
   login() {
     this.accountService.login(this.model).subscribe({
