@@ -19,6 +19,5 @@ namespace API.Entities
         public required string City { get; set; }
         public required string Country { get; set; }
         public ICollection<Photo> Photos { get; set; } = new HashSet<Photo>();
-        public int Age => DateOfBirth.CalculateAge();
     }
 }
