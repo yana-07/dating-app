@@ -12,7 +12,7 @@ import { MemberCardComponent } from '../member-card/member-card.component';
   styleUrl: './member-list.component.css'
 })
 export class MemberListComponent implements OnInit{
-  members = signal<Member[]>([]);
+  members: Member[] = [];
   private memberService = inject(MemberService);
 
   ngOnInit() {
@@ -21,7 +21,7 @@ export class MemberListComponent implements OnInit{
 
   loadMembers() {
     this.memberService.getMembers().subscribe({
-      next: (members) => this.members.set(members)
+      next: (members) => this.members = members
     });
   }
 }
