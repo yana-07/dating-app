@@ -6,13 +6,13 @@ using System.Text.Json;
 
 namespace API.Data
 {
-    public class Seeder
+    public static class Seeder
     {
-        public static async Task SeedUsersAsync(DataContext context)
+        public static async Task SeedUsersAsync(DataContext context, IWebHostEnvironment env)
         {
             if (await context.Users.AnyAsync()) return;
 
-            var userData = await File.ReadAllTextAsync("Data/UserSeedData.json");
+            var userData = await File.ReadAllTextAsync(Path.Combine(env.ContentRootPath, "Data/UserSeedData.json"));
 
             var options = new JsonSerializerOptions {PropertyNameCaseInsensitive = true};
 
