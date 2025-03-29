@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { authGuard } from './_guards/auth.guard';
@@ -27,7 +27,7 @@ export const routes: Routes = [
       },
       {
         path: 'members/:id',
-        component: MemberDetailComponent,
+        component: MemberDetailsComponent,
       },
       {
         path: 'lists',
