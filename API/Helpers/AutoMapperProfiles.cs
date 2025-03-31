@@ -15,6 +15,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.PhotoUrl, opt => 
                     opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain)!.Url)); // Ok to use the null-forgiving operator, if FirstOrDefault returns null, it will be propagated to the PhotoUrl and no NullReferenceException will be thrown
             CreateMap<Photo, PhotoDto>();
+            CreateMap<MemberUpdateDto, AppUser>();
         }
     }
 }
