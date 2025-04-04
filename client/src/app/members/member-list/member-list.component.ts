@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import { MemberService } from '../../_services/member.service';
 import { Member } from '../../_models/member';
@@ -12,16 +12,14 @@ import { MemberCardComponent } from '../member-card/member-card.component';
   styleUrl: './member-list.component.css'
 })
 export class MemberListComponent implements OnInit{
-  members: Member[] = [];
+  members = computed(() => this.memberService.allMembers());
   private memberService = inject(MemberService);
 
   ngOnInit() {
-    this.loadMembers();
+    if (this.memberService.allMembers().length === 0) this.loadMembers();  
   }
 
   loadMembers() {
-    this.memberService.getMembers().subscribe({
-      next: (members) => this.members = members
-    });
+    this.memberService.getMembers();
   }
 }
