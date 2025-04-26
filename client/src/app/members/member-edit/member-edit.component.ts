@@ -6,10 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Member } from '../../_models/member';
 import { AccountService } from '../../_services/account.service';
 import { MemberService } from '../../_services/member.service';
+import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
 
 @Component({
   selector: 'app-member-edit',
-  imports: [TabsModule, FormsModule],
+  imports: [TabsModule, FormsModule, PhotoEditorComponent],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css',
   host: {
@@ -43,6 +44,10 @@ export class MemberEditComponent implements OnInit {
         this.editForm()?.reset(this.member);
       }
     });
+  }
+
+  onMemberChange(event: Member) {
+    this.member = event;
   }
 
   notify(event: BeforeUnloadEvent) {
