@@ -39,19 +39,25 @@ export class PhotoEditorComponent implements OnInit {
         const updatedMember = { 
           ...this.member(),
           photoUrl: photo.url,
-          photos: [
-            ...this.member()
-              .photos.map(p => {
-                if (p.id === photo.id) return {...p, isMain: true};
-
-                return {...p, isMain: false}
-              }),
-          ] 
+          photos: this.member().photos.map(p => ({...p, isMain: p.id === photo.id })), 
         };
 
         this.memberChange.emit(updatedMember);
       }
     });
+  }
+
+  deletePhoto(photoId: Number) {
+    this.memberService.deletePhoto(photoId).subscribe({
+      next: () => {
+        const updatedMember = {
+          ...this.member(),
+          photos: this.member().photos.filter(p => p.id !== photoId)
+        };
+
+        this.memberChange.emit(updatedMember);
+      }
+    })
   }
 
   initializeUploader() {
@@ -74,10 +80,7 @@ export class PhotoEditorComponent implements OnInit {
 
       const updatedMember = { 
         ...this.member(),
-        photos: [
-          this.member().photos.map(p => ({...p})),
-          photo
-        ] 
+        photos: [...this.member().photos, photo] 
       };
 
       this.memberChange.emit(updatedMember);

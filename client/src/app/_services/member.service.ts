@@ -45,15 +45,31 @@ export class MemberService {
         tap(() => {
           this.members.update(members =>
             members.map(m => {
-              if (m.photos.find(f => f.id === photo.id)) {
+              if (m.photos.find(p => p.id === photo.id)) {
                 return {
                   ...m,
                   photoUrl: photo.url,
-                  photos: m.photos.map(f =>
-                    f.id === photo.id
-                      ? { ...f, isMain: true }
-                      : { ...f, isMain: false }
-                  ),
+                  photos: m.photos.map(p => ({ ...p, isMain: p.id === photo.id })),
+                };
+              }
+
+              return m;
+            })
+          );
+        })
+      );
+  }
+
+  deletePhoto(photoId: Number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId)
+      .pipe(
+        tap(() => {
+          this.members.update(members => 
+            members.map(m => {
+              if (m.photos.find(p => p.id === photoId)) {
+                return {
+                  ...m,
+                  photos: m.photos.filter(p => p.id !== photoId)
                 };
               }
 
