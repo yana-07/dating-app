@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import { MemberService } from '../../_services/member.service';
-import { Member } from '../../_models/member';
 import { MemberCardComponent } from '../member-card/member-card.component';
 
 @Component({

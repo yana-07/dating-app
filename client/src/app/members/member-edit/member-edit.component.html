@@ -1,4 +1,4 @@
-@if (member) {
+@if (member()) {
   <div class="row">
     <div class="col-4">
       <h1>Your profile</h1>
@@ -16,26 +16,26 @@
     <div class="col-4">
       <div class="card">
         <img
-          [src]="member.photoUrl || 'assets/user.png'"
-          [alt]="member.knownAs"
+          [src]="member()!.photoUrl || 'assets/user.png'"
+          [alt]="member()!.knownAs"
           class="card-img img-thumbnail"
         />
         <div class="card-body">
           <div>
             <strong>Location:</strong>
-            <p>{{ member.city }}, {{ member.country }}</p>
+            <p>{{ member()!.city }}, {{ member()!.country }}</p>
           </div>
           <div>
             <strong>Age:</strong>
-            <p>{{ member.age }}</p>
+            <p>{{ member()!.age }}</p>
           </div>
           <div>
             <strong>Last active:</strong>
-            <p>{{ member.lastActive }}</p>
+            <p>{{ member()!.lastActive }}</p>
           </div>
           <div>
             <strong>Member since:</strong>
-            <p>{{ member.created }}</p>
+            <p>{{ member()!.created }}</p>
           </div>
         </div>
         <div class="card-footer">
@@ -51,13 +51,13 @@
     </div>
     <div class="col-8">
       <tabset class="member-tabset">
-        <tab [heading]="member.knownAs">
+        <tab [heading]="member()!.knownAs">
           <form id="editForm" #editForm="ngForm" (ngSubmit)="updateMember()">
             <h4 class="mt-2">Description</h4>
             <textarea 
               class="form-control" 
               name="introduction"
-              [(ngModel)]="member.introduction"
+              [(ngModel)]="member()!.introduction"
               rows="6"
             >
             </textarea>
@@ -65,7 +65,7 @@
             <textarea 
               class="form-control" 
               name="lookingFor"
-              [(ngModel)]="member.lookingFor"
+              [(ngModel)]="member()!.lookingFor"
               rows="6"
             >
             </textarea>
@@ -73,7 +73,7 @@
             <textarea 
               class="form-control" 
               name="interests"
-              [(ngModel)]="member.interests"
+              [(ngModel)]="member()!.interests"
               rows="6"
             >
             </textarea>
@@ -83,21 +83,21 @@
               <input 
                 class="form-control mx-2"
                 name="city"
-                [(ngModel)]="member.city"
+                [(ngModel)]="member()!.city"
               >
               <label>Country: </label>
               <input 
                 class="form-control mx-2"
                 name="country"
-                [(ngModel)]="member.country"
+                [(ngModel)]="member()!.country"
               >
             </div>
           </form>
         </tab>
         <tab heading="Edit photos">
           <app-photo-editor 
-            [member]="member" 
-            (membeChange)="onMemberChange($event)" 
+            [member]="member()!" 
+            (memberChange)="onMemberChange($event)" 
           />
         </tab>
       </tabset>

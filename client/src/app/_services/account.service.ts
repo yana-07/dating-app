@@ -17,8 +17,8 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       tap(user => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
           this.currentUser.set(user);
+          this.persistCurrentUser();
         }
       })
     );
@@ -28,8 +28,8 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       tap(user => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
           this.currentUser.set(user);
+          this.persistCurrentUser();
         }
       })
     );
@@ -40,10 +40,23 @@ export class AccountService {
     this.currentUser.set(null);
   }
 
-  setCurrentUser() {
+  getCurrentUser() {
     const userString = localStorage.getItem('user');
     if (!userString) return;
     const user: User = JSON.parse(userString);
     this.currentUser.set(user);
+  }
+
+  persistCurrentUser() {
+    localStorage.setItem('user', JSON.stringify(this.currentUser()));
+  }
+
+  updateUserMainPhoto(photoUrl: string) {
+    this.currentUser.update(user => {
+      if (!user) return user;
+      return {...user, photoUrl};
+    });
+
+    this.persistCurrentUser();
   }
 }

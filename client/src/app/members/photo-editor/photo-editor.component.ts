@@ -5,6 +5,8 @@ import { FileUploader, FileUploadModule } from 'ng2-file-upload'
 import { Member } from '../../_models/member';
 import { AccountService } from '../../_services/account.service';
 import { environment } from '../../../environments/environment';
+import { Photo } from '../../_models/photo';
+import { MemberService } from '../../_services/member.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -17,8 +19,9 @@ export class PhotoEditorComponent implements OnInit {
   uploader?: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
-  membeChange = output<Member>();
+  memberChange = output<Member>();
   private accountService = inject(AccountService);
+  private memberService = inject(MemberService);
 
   ngOnInit() {
     this.initializeUploader();
@@ -28,9 +31,32 @@ export class PhotoEditorComponent implements OnInit {
     this.hasBaseDropZoneOver = event;
   }
 
+  setMainPhoto(photo: Photo) {
+    this.memberService.setMainPhoto(photo).subscribe({
+      next: () => {
+        this.accountService.updateUserMainPhoto(photo.url);
+
+        const updatedMember = { 
+          ...this.member(),
+          photoUrl: photo.url,
+          photos: [
+            ...this.member()
+              .photos.map(p => {
+                if (p.id === photo.id) return {...p, isMain: true};
+
+                return {...p, isMain: false}
+              }),
+          ] 
+        };
+
+        this.memberChange.emit(updatedMember);
+      }
+    });
+  }
+
   initializeUploader() {
     this.uploader = new FileUploader({
-      url: this.baseUrl + '/add-photo',
+      url: this.baseUrl + 'users/add-photo',
       authToken: 'Bearer ' + this.accountService.currentUser()?.token,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -49,12 +75,12 @@ export class PhotoEditorComponent implements OnInit {
       const updatedMember = { 
         ...this.member(),
         photos: [
-          ...this.member().photos,
+          this.member().photos.map(p => ({...p})),
           photo
         ] 
       };
 
-      this.membeChange.emit(updatedMember);
+      this.memberChange.emit(updatedMember);
     };
   }
 }
