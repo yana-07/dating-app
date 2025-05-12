@@ -1,0 +1,34 @@
+<div class="mb-3 form-floating">
+  <input
+    [class.is-invalid]="ngControl.touched && ngControl.invalid"
+    class="form-control"
+    [type]="type()"
+    [formControl]="control"
+    [placeholder]="label()"
+  />
+  <label>{{label()}}</label>
+  <div
+    *ngIf="ngControl.hasError('required')"
+    class="invalid-feedback text-start"
+  >
+    Please enter a {{label()}}
+  </div>
+  <div
+    *ngIf="ngControl.hasError('minlength')"
+    class="invalid-feedback text-start"
+  >
+    {{label()}} must be at least {{ngControl.errors?.['minlength'].requiredLength}} characters
+  </div>
+  <div
+    *ngIf="ngControl.hasError('maxlength')"
+    class="invalid-feedback text-start"
+  >
+    {{label()}} must be at most {{ngControl.errors?.['maxlength'].requiredLength}} characters
+  </div>
+  <div
+    *ngIf="ngControl.hasError('isNotMatching')"
+    class="invalid-feedback text-start"
+  >
+    Passwords do not match
+  </div>
+</div>

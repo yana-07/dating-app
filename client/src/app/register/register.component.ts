@@ -8,15 +8,15 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { NgIf } from '@angular/common';
 
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { TextInputComponent } from "../_forms/text-input/text-input.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, TextInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -67,5 +67,17 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelReg.emit(false);
+  }
+
+  get userNameControl(): FormControl {
+    return this.registerForm.controls['username'] as FormControl;
+  }
+
+  get passwordControl(): FormControl {
+    return this.registerForm.controls['password'] as FormControl;
+  }
+
+  get confirmPasswordControl(): FormControl {
+    return this.registerForm.controls['confirmPassword'] as FormControl;
   }
 }
