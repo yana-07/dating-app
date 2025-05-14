@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, output } from '@angular/core';
 import {
   AbstractControl,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -26,23 +27,29 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
+  private fb = inject(FormBuilder);
 
   ngOnInit() {
     this.initializeForm();
   }
 
   initializeForm() {
-    this.registerForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', [
+    this.registerForm = this.fb.group({
+      gender: ['male'],
+      username: ['', Validators.required],
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      password: ['', [
         Validators.required,
         Validators.minLength(4),
         Validators.maxLength(8)
-      ]),
-      confirmPassword: new FormControl('', [
+      ]],
+      confirmPassword: ['', [
         Validators.required,
         this.matchValues('password')
-      ]),
+      ]],
     });
 
     this.registerForm.controls['password'].valueChanges.subscribe({
@@ -67,6 +74,22 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelReg.emit(false);
+  }
+
+  get knownAsControl(): FormControl {
+    return this.registerForm.controls['knownAs'] as FormControl;
+  }
+
+  get dateOfBirthControl(): FormControl {
+    return this.registerForm.controls['dateOfBirth'] as FormControl;
+  }
+
+  get cityControl(): FormControl {
+    return this.registerForm.controls['city'] as FormControl;
+  }
+
+  get countryControl(): FormControl {
+    return this.registerForm.controls['country'] as FormControl;
   }
 
   get userNameControl(): FormControl {
