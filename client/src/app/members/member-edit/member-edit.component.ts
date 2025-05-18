@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +11,7 @@ import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
 
 @Component({
   selector: 'app-member-edit',
-  imports: [TabsModule, FormsModule, PhotoEditorComponent],
+  imports: [TabsModule, FormsModule, PhotoEditorComponent, DatePipe],
   templateUrl: './member-edit.component.html',
   styleUrl: './member-edit.component.css',
   host: {

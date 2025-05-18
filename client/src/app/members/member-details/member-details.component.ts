@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
@@ -9,7 +10,7 @@ import { Member } from '../../_models/member';
 @Component({
   selector: 'app-member-details',
   standalone: true,
-  imports: [TabsModule, GalleryModule],
+  imports: [TabsModule, GalleryModule, DatePipe],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css',
 })
